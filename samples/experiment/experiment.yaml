@@ -6,10 +6,10 @@ tags:
   - sample
 resources:
   - name: demo_heat
-    generator: file:.
-workload:
+    generator: file:../../.
+workloads:
   - name: demo
-    generator: git:git@gitlab.gwdg.de:scotty/workload/demo:test
+    generator: git:git@gitlab.gwdg.de:scotty/workload/demo
     resources:
       demo_res: demo_heat
     params:
