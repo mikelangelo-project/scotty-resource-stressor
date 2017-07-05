@@ -7,7 +7,7 @@ tags:
 resources:
   - name: demo_heat
     generator: file:.
-workload
+workload:
   - name: demo
     generator: git:git@gitlab.gwdg.de:scotty/workload/demo:test
     resources:
