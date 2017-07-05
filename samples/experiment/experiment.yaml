@@ -1,18 +1,12 @@
 description: |
   "This is a example for an experiment with heat"
-tags:
-  - experiment
-  - heat
-  - sample
 resources:
   - name: demo_heat
     generator: file:../../.
 workloads:
-  - name: demo
-    generator: git:git@gitlab.gwdg.de:scotty/workload/demo
+  - name: validate
+    generator: file:workload/validate/
     resources:
-      demo_res: demo_heat
-    params:
-      greeting: 'Hallo'
+      test_resource: demo_heat
 
 
