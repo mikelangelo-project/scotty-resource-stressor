@@ -1,7 +1,7 @@
 parameters:
  key_name: KEY_NAME
- instance_flv: FLAVOR
- instance_img: IMAGE
- private_net_id: PRIVATE_NET_ID
+ flavor: FLAVOR
+ image: IMAGE
+ private_network_id: PRIVATE_NET_ID
  private_subnet_id: PRIVATE_SUBNET_ID
- public_net_id: PUBLIC_NET_ID
+ public_network_id: PUBLIC_NET_ID
