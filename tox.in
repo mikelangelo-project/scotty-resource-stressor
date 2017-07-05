@@ -1,0 +1,8 @@
+[pytest]
+addopts = --cov-report term-missing --cov=resource_gen.py
+
+[flake8]
+exclude = 
+    tests/,
+    samples/
+max-line-length = 99
