@@ -2,7 +2,6 @@ heat_template_version: 2015-10-15
 
 description: >
 
-
 ####### PARAMETERS #######
 
 parameters:
@@ -10,15 +9,15 @@ parameters:
   type: string
   description: Pair key name
 
- instance_flv:
+ flavor:
   type: string
   description: VM Flavor
 
- instance_img:
+ image:
   type: string
   description: VM Image
 
- private_net_id:
+ private_network_id:
   type: string
   description: Private Network ID
   default: 
@@ -27,69 +26,56 @@ parameters:
   type: string
   description: Private Subnet ID
 
- public_net_id:
+ public_network_id:
   type: string
   description: Public Network ID
-
-####### PARAMETERS #######
-
-
-
-
 
 ####### RESOURCES #######
 
 resources:
 
- run_script:
+ customer_script:
   type: OS::Heat::SoftwareConfig
   properties:
    group: ungrouped
    config: {get_file: assets/script.sh}
 
- instance_init:
+ user_data:
   type: OS::Heat::MultipartMime
   properties:
     parts:
-     - config: { get_resource: run_script }
+     - config: { get_resource: customer_script }
 
- instance1:
+ instance:
   type: OS::Nova::Server
   properties:
-   name: "Instance 1"
-   image: { get_param: instance_img }
-   flavor: { get_param: instance_flv }
+   name: "Instance from demo heat "
+   image: { get_param: image }
+   flavor: { get_param: flavor }
    networks:
-     - port: { get_resource: instance1_port0 }
+     - port: { get_resource: port }
    user_data_format: RAW
-   user_data: { get_resource: instance_init  }
+   user_data: { get_resource: user_data  }
 
- instance1_port0:
+ port:
   type: OS::Neutron::Port
   properties:
-   network_id: { get_param: private_net_id }
+   network_id: { get_param: private_network_id }
    fixed_ips:
        - subnet_id: { get_param: private_subnet_id }
 
- instance1_public:
+ floating_ip:
   type: OS::Neutron::FloatingIP
   properties:
-   floating_network_id: { get_param: public_net_id }
-   port_id: { get_resource: instance1_port0 }
-
-####### RESOURCES #######
-
-
-
+   floating_network_id: { get_param: public_network_id }
+   port_id: { get_resource: port }
 
 ####### TEMPLATE OUTPUT #######
 
 outputs:
- instance1_private_ip:
-  description: IP address of instance1 in private network
-  value: { get_attr: [ instance1, first_address ] }
- instance1_public_ip:
+ instance_private_ip:
+  description: IP address of instance in private network
+  value: { get_attr: [ instance, first_address ] }
+ instance_public_ip:
   description: Floating IP address of instance1 in public network
-  value: { get_attr: [ instance1_public, floating_ip_address ] }
-
-####### TEMPLATE OUTPUT #######
+  value: { get_attr: [ floating_ip, floating_ip_address ] }
