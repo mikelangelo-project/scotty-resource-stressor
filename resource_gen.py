@@ -8,7 +8,8 @@ def endpoint(context):
     return endpoint
 
 def deploy(context):
-    pass
+    resource = context.v1.resource
+    logger.info('Deploy resource {}'.format(resource.name))
     
 def clean(context):
     pass

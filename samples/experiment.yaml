@@ -1,0 +1,5 @@
+description: |
+  "This is a example for an experiment with heat"
+resources:
+  - name: demo_heat
+    generator: file:.
